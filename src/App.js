@@ -15,6 +15,11 @@ export default function App() {
   function handleTip2(currTip2) {
     setTip2(currTip2);
   }
+  function handleReset() {
+    handleBill(0);
+    handleTip1("0");
+    handleTip2("0");
+  }
 
   return (
     <div>
@@ -25,7 +30,12 @@ export default function App() {
       <SelectPercentage onTip1={handleTip2} tip={tip2}>
         how do your friend like the service
       </SelectPercentage>
-      <Output bill={Number(bill)} tip1={Number(tip1)} tip2={Number(tip2)} />
+      {bill !== 0 && (
+        <div>
+          <Output bill={Number(bill)} tip1={Number(tip1)} tip2={Number(tip2)} />
+          <Reset onReset={handleReset} />
+        </div>
+      )}
     </div>
   );
 }
@@ -37,6 +47,7 @@ function BillInput({ onBill, bill }) {
         <input
           type="text"
           placeholder={bill}
+          value={bill}
           onChange={(e) => onBill(e.target.value)}
         />
       </h1>
@@ -67,6 +78,14 @@ function Output({ bill, tip1, tip2 }) {
       <h1>
         You pay ${FinalCheck} (${bill} + ${tip} tip )
       </h1>
+    </div>
+  );
+}
+
+function Reset({ onReset }) {
+  return (
+    <div>
+      <button onClick={onReset}>reset</button>
     </div>
   );
 }
